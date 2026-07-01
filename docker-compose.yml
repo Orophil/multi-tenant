@@ -1,0 +1,18 @@
+services:
+  db:
+    image: postgres:16
+    container_name: ff-db
+    environment:
+      POSTGRES_USER: ffuser
+      POSTGRES_PASSWORD: ffpass
+      POSTGRES_DB: featureflags
+    # Host port 5544 so it matches the backend DATABASE_URL and does not
+    # clash with a PostgreSQL that may already be running locally on 5432.
+    ports:
+      - "5544:5432"
+    volumes:
+      - ff-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  ff-db-data:
